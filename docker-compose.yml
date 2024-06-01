@@ -1,0 +1,33 @@
+services:
+  mercadona_postgres:
+    image: postgres:latest
+    container_name: mercadona_postgres
+    environment:
+      POSTGRES_USER: mercadona_user
+      POSTGRES_PASSWORD: mercadona_pass
+      POSTGRES_DB: mercadona_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mercadona_product-service:
+    image: mercadona-product-service:latest
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mercadona_postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: mercadona_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mercadona.com
+      PGADMIN_DEFAULT_PASSWORD: mercadona_pass
+    ports:
+      - "5050:80"
+    depends_on:
+      - mercadona_postgres
+
+volumes:
+  postgres_data:

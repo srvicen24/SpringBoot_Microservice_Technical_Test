@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: MercadonaProductService
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:postgresql://mercadona_postgres:5432/mercadona_db
+    username: mercadona_user
+    password: mercadona_pass
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    enabled: true
+  cache:
+    type: caffeine
+    cache-names: products, suppliers
+    caffeine:
+      spec: maximumSize=500,expireAfterAccess=5m
+
+server:
+  port: 8081
+
+logging:
+  level:
+    root: info
+  file:
+    path: logs
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
